@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const usersRoute = require("./routes/users");
 
 const app = express();
 
@@ -21,6 +22,9 @@ mongoose
 app.use(express.json());
 app.use(helmet());
 app.use(morgan("common"));
+
+// Routes
+app.use("/api/users", usersRoute);
 
 app.listen(8181, () => {
   console.log("Backend server is running at 8181!");
