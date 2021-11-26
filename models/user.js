@@ -37,12 +37,12 @@ const UserSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
-    role: {
-      type: Boolean,
-      default: false,
+    customLists: {
+      type: Array,
+      default: [],
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("User", UserSchema);
+module.exports = User = mongoose.model("User", UserSchema);
