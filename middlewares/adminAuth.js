@@ -1,4 +1,5 @@
 const Admin = require("../models/admin");
+const jwt = require("jsonwebtoken");
 
 module.exports = async function (req, res, next) {
   const token = req.header("x-auth-token");
@@ -14,15 +15,8 @@ module.exports = async function (req, res, next) {
     });
 
   try {
-    //Getting admin information by Id
-    const admin = await Admin.findOne({
-      _id: req.id,
-    });
-
-    if (!admin) {
-      console.log("error");
-    }
-
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded.user;
     next();
   } catch (error) {
     console.log(error);
