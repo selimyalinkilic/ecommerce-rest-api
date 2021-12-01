@@ -1,18 +1,12 @@
 const jwt = require("jsonwebtoken");
+const { UnAuthorized } = require("../utils/errors.js");
 
 module.exports = function (req, res, next) {
   // Get token from header
   const token = req.header("x-auth-token");
 
   // Check if no token
-  !token &&
-    res.status(401).json({
-      errors: [
-        {
-          message: "No token, auth denied",
-        },
-      ],
-    });
+  if (!token) throw new UnAuthorized("No token, auth denied");
 
   // Verify token
   try {
@@ -20,8 +14,6 @@ module.exports = function (req, res, next) {
     req.user = decoded.user;
     next();
   } catch (error) {
-    req.status(401).json({
-      message: "Token is not valid",
-    });
+    next(error);
   }
 };
