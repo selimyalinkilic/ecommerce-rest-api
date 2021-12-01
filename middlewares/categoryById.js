@@ -1,24 +1,28 @@
 const mongoose = require("mongoose");
 const Category = require("../models/category");
-const { NotFound } = require("../utils/errors");
 
 module.exports = async function (req, res, next) {
   const { id } = req.params;
 
-  try {
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      throw new NotFound("Category not found");
-    }
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(403).json({
+      error: "Category not found",
+    });
+  }
 
+  try {
     let category = await Category.findById(id);
 
     if (!category) {
-      throw new NotFound("Category not found");
+      return res.status(403).json({
+        error: "Category not found",
+      });
     }
 
     req.category = category;
     next();
   } catch (error) {
-    next(error);
+    console.log(error);
+    res.status(500).json(error);
   }
 };

@@ -2,12 +2,11 @@ const express = require("express");
 const Product = require("../models/product");
 const adminAuth = require("../middlewares/adminAuth");
 const productById = require("../middlewares/productById");
-const { NotFound } = require("../utils/errors");
 
 const router = express.Router();
 
 // Create product
-router.post("/create", adminAuth, async (req, res, next) => {
+router.post("/create", adminAuth, async (req, res) => {
   const { name, description, price, category, photos, quantity } = req.body;
 
   if (!name || !description || !price || !category || !photos || !quantity) {
@@ -23,14 +22,14 @@ router.post("/create", adminAuth, async (req, res, next) => {
   try {
     await product.save();
     res.json("Product created successfully");
-    next();
   } catch (error) {
-    next(error);
+    console.log(error);
+    res.status(500).send("Server Error");
   }
 });
 
 // Getting list products
-router.get("/all", async (req, res, next) => {
+router.get("/all", async (req, res) => {
   let order = req.query.order || "asc";
   let sortBy = req.query.sort || "createdAt";
   let limit = req.query.limit ? parseInt(req.query.limit) : 6;
@@ -41,17 +40,15 @@ router.get("/all", async (req, res, next) => {
       .limit(limit)
       .exec();
 
-    if (!products) throw new NotFound("Products not found!");
-
     res.json(products);
-    next();
   } catch (error) {
-    next(error);
+    console.log(error);
+    res.status(500).send("Server Error");
   }
 });
 
 // Search products
-router.get("/search", async (req, res, next) => {
+router.get("/search", async (req, res) => {
   const query = {};
 
   if (req.query.q) {
@@ -65,13 +62,15 @@ router.get("/search", async (req, res, next) => {
     let products = await Product.find(query);
 
     if (products.length < 1) {
-      throw new NotFound("Nothing found");
+      res.status(500).json({
+        message: "Products not found",
+      });
     }
 
-    res.json(products);
-    next();
+    return res.json(products);
   } catch (error) {
-    next(error);
+    console.log(error);
+    res.status(500).send("Server Error");
   }
 });
 
@@ -90,7 +89,8 @@ router.delete("/delete/:id", adminAuth, productById, async (req, res) => {
       message: `${deletedProduct.name} deleted successfully`,
     });
   } catch (error) {
-    next(error);
+    console.log(error);
+    res.status(500).send("Server Error");
   }
 });
 
