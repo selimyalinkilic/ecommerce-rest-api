@@ -10,6 +10,7 @@ const authRoute = require("./routes/auth");
 const adminRoute = require("./routes/admin");
 const categoryRoute = require("./routes/category");
 const productRoute = require("./routes/product");
+const handleErrors = require("./middlewares/handleErrors");
 
 const app = express();
 
@@ -40,6 +41,8 @@ app.use("/api/auth", authRoute);
 app.get("/", (req, res) => {
   res.send("Welcome to home page");
 });
+
+app.use(handleErrors);
 
 app.listen(8181, () => {
   console.log("Backend server is running at 8181!");

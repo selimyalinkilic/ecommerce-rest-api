@@ -3,6 +3,7 @@ const Admin = require("../models/admin");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { check, validationResult } = require("express-validator");
+const { IsExist, BadRequest } = require("../utils/errors");
 
 // Register Admin
 router.post(
@@ -18,13 +19,10 @@ router.post(
       min: 6,
     }),
   ],
-  async (req, res) => {
-    const errors = validationResult(req);
+  async (req, res, next) => {
     // Control error
-    !errors.isEmpty() &&
-      res.status(400).json({
-        errors: errors.array(),
-      });
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) throw new BadRequest(errors.array()[0].msg);
 
     // Getting name, surname, email and password from request
     const { name, surname, email, password } = req.body;
@@ -33,14 +31,7 @@ router.post(
       // Check if admin already exist
       let admin = await Admin.findOne({ email });
 
-      admin &&
-        res.status(400).json({
-          errors: [
-            {
-              message: "Admin is already exists!",
-            },
-          ],
-        });
+      if (admin) throw new IsExist("Admin is already exist!");
 
       // Create new admin object
       admin = new Admin({ name, surname, email, password });
@@ -55,9 +46,9 @@ router.post(
       // Save admin to database
       await admin.save();
       res.status(200).send("Admin is created");
+      next();
     } catch (error) {
-      console.log(error.message);
-      res.status(500).send("Server error");
+      next(error);
     }
   }
 );
@@ -69,14 +60,10 @@ router.post(
     check("email", "Please include a valid email").isEmail(),
     check("password", "Password is reqired").exists(),
   ],
-  async (req, res) => {
-    const errors = validationResult(req);
+  async (req, res, next) => {
     // Control error
-    if (!errors.isEmpty()) {
-      res.status(400).json({
-        errors: errors.array(),
-      });
-    }
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) throw new BadRequest(errors.array()[0].msg);
     // Getting email and password from request body
     const { email, password } = req.body;
 
@@ -85,27 +72,13 @@ router.post(
       let admin = await Admin.findOne({ email });
 
       // If admin not found in db
-      !admin &&
-        res.status(400).json({
-          errors: [
-            {
-              message: "Admin is not exists!",
-            },
-          ],
-        });
+      if (!admin) throw new IsNotExists("Admin is not exist!");
 
       // If admin exists
       const isMatch = await bcrypt.compare(password, admin.password);
 
       // If password doesn't match
-      !isMatch &&
-        res.status(400).json({
-          errors: [
-            {
-              message: "Password is wrong!",
-            },
-          ],
-        });
+      if (!isMatch) throw new BadRequest("Password is wrong!");
 
       // Payload for jwt
       const payload = {
@@ -127,7 +100,10 @@ router.post(
           });
         }
       );
-    } catch (error) {}
+      next();
+    } catch (error) {
+      next(error);
+    }
   }
 );
 
