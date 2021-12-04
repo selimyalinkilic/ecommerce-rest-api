@@ -16,7 +16,7 @@ const handleErrors = require("./middlewares/handleErrors");
 dotenv.config();
 const app = express();
 
-const port = process.env.PORT || 8181;
+const port = process.env.PORT || 3000;
 
 // MongoDB connection
 mongoose
