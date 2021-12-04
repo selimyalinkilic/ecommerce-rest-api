@@ -6,6 +6,7 @@
   "author": "selimyalinkilic <yalinkilicselim@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "dev": "nodemon index.js",
     "start": "node index.js"
   },
   "dependencies": {
