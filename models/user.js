@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { ObjectId } = mongoose.Schema.Types;
 
 const UserSchema = new mongoose.Schema(
   {
@@ -66,20 +67,21 @@ const UserSchema = new mongoose.Schema(
         },
       },
     ],
-    orders: {
-      type: Array,
-      default: [],
-    },
-    favorites: {
-      type: Array,
-      default: [],
-    },
-    customLists: {
-      type: Array,
-      default: [],
-    },
+    orders: [
+      {
+        type: ObjectId,
+        ref: "Order",
+      },
+    ],
+    favorites: [
+      {
+        type: ObjectId,
+        ref: "Product",
+      },
+    ],
   },
   { timestamps: true }
 );
 
-module.exports = User = mongoose.model("User", UserSchema);
+module.exports = User =
+  mongoose.models.User || mongoose.model("User", UserSchema);
