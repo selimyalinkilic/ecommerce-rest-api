@@ -16,6 +16,8 @@ const handleErrors = require("./middlewares/handleErrors");
 dotenv.config();
 const app = express();
 
+const port = process.env.PORT || 3000;
+
 // MongoDB connection
 mongoose
   .connect(process.env.MONGO_URL, () => {
@@ -45,6 +47,6 @@ app.get("/", (req, res) => {
 
 app.use(handleErrors);
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(port, () => {
   console.log(`Backend server is running at ${port}`);
 });
