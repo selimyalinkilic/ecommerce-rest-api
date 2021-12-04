@@ -13,9 +13,10 @@ const productRoute = require("./routes/product");
 const ordersRoute = require("./routes/orders");
 const handleErrors = require("./middlewares/handleErrors");
 
+dotenv.config();
 const app = express();
 
-dotenv.config();
+const port = process.env.PORT || 8181;
 
 // MongoDB connection
 mongoose
@@ -46,6 +47,6 @@ app.get("/", (req, res) => {
 
 app.use(handleErrors);
 
-app.listen(8181, () => {
-  console.log("Backend server is running at 8181!");
+app.listen(port, () => {
+  console.log(`Backend server is running at ${port}`);
 });
