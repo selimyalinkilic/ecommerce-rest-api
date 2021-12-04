@@ -10,6 +10,7 @@ const authRoute = require("./routes/auth");
 const adminRoute = require("./routes/admin");
 const categoryRoute = require("./routes/category");
 const productRoute = require("./routes/product");
+const ordersRoute = require("./routes/orders");
 const handleErrors = require("./middlewares/handleErrors");
 
 const app = express();
@@ -38,6 +39,7 @@ app.use("/api/admin", adminRoute);
 app.use("/api/category", categoryRoute);
 app.use("/api/product", productRoute);
 app.use("/api/auth", authRoute);
+app.use("/api/orders", ordersRoute);
 app.get("/", (req, res) => {
   res.send("Welcome to home page");
 });
