@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { check, validationResult } = require("express-validator");
 const { IsExist, BadRequest } = require("../utils/errors");
+
 // Register User
 router.post(
   "/register",

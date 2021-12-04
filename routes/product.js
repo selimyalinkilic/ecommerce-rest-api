@@ -80,18 +80,4 @@ router.get("/:id", productById, async (req, res) => {
   res.json(req.product);
 });
 
-// Delete category
-router.delete("/delete/:id", adminAuth, productById, async (req, res) => {
-  let product = req.product;
-
-  try {
-    let deletedProduct = await product.remove();
-    res.json({
-      message: `${deletedProduct.name} deleted successfully`,
-    });
-  } catch (error) {
-    next(error);
-  }
-});
-
 module.exports = router;
