@@ -47,6 +47,7 @@ app.use((req, res, next) => {
   }
   next();
 });
+
 app.use("/api/users", usersRoute);
 app.use("/api/admin", adminRoute);
 app.use("/api/category", categoryRoute);
