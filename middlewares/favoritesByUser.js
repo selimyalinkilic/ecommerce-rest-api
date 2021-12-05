@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const User = require("../models/User");
+const User = require("../models/user");
 const { NotFound } = require("../utils/errors");
 
 const favoritesByUser = async (req, res, next) => {
