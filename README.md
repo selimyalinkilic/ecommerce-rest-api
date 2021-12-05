@@ -2,6 +2,12 @@
 
 Ecommerce Rest Api is a rest api made with Express & MongoDB.
 
+## Demo
+
+This project deployed to the heroku and this is the heroku url.
+
+http://mongo-express-rest-api.herokuapp.com/
+
 ## Used Technologies
 
 This project has this technologies:
@@ -75,6 +81,11 @@ These are the endpoints we're using _(will be added on new endpoints)_ :
 
 -**/api/admin/login :** Login admin. _(Post request)_
 
+## Resources
+
+- [Mongoose](https://mongoosejs.com)
+- [Express](https://expressjs.com)
+
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+This project is released under the [MIT License](LICENSE)
