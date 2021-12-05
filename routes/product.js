@@ -3,6 +3,7 @@ const Product = require("../models/product");
 const adminAuth = require("../middlewares/adminAuth");
 const productById = require("../middlewares/productById");
 const { NotFound } = require("../utils/errors");
+const { BadRequest } = require("http-errors");
 
 const router = express.Router();
 
@@ -38,6 +39,41 @@ router.delete("/delete/:id", adminAuth, productById, async (req, res, next) => {
     res.json({
       message: `${deletedProduct.name} deleted successfully`,
     });
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Update product
+router.put("/update/:id", adminAuth, productById, async (req, res, next) => {
+  let product = req.product;
+
+  const {
+    name,
+    description,
+    price,
+    category,
+    quantity,
+    discount,
+    photos,
+    shipping,
+    published,
+  } = req.body;
+
+  if (name) product.name = name;
+  if (description) product.description = description;
+  if (price) product.price = price;
+  if (category) product.category = category;
+  if (quantity) product.quantity = quantity;
+  if (discount) product.discount = discount;
+  if (photos) product.photos = photos;
+  if (shipping) product.shipping = shipping;
+  if (published) product.published = published;
+
+  try {
+    product = await product.save();
+    res.json(product);
     next();
   } catch (error) {
     next(error);
