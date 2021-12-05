@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-import Order from "../models/Order";
+const Order = require("../models/Order");
 const { NotFound } = require("../utils/errors");
 
 const orderById = async (req, res, next) => {
