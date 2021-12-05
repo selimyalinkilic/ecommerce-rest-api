@@ -55,6 +55,8 @@ These are the endpoints we're using _(will be added on new endpoints)_ :
 
 -**/api/product/delete/:id :** Deleting product by id. _(Needs admin authorization, Delete request)_
 
+-**/api/product/update/:id :** Updating product by id. _(Needs admin authorization, Put request)_
+
 -**/api/search :** Searching products by name. _(Get request)_
 
 **Category Endpoints :**
