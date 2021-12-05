@@ -47,7 +47,33 @@ These are the endpoints we're using _(will be added on new endpoints)_ :
 
 -**/api/product/create :** Creating new product. _(Needs admin authorization, Get request)_
 
+-**/api/product/delete/:id :** Deleting product by id. _(Needs admin authorization, Delete request)_
+
 -**/api/search :** Searching products by name. _(Get request)_
+
+**Category Endpoints :**
+
+-**/api/category/all :** Getting all categories. _(Get request)_
+
+-**/api/category/:id :** Getting category by id. _(Get request)_
+
+-**/api/category/create :** Creating a new category. _(Needs admin authorization, Post request)_
+
+-**/api/category/update/:id :** Updating category by id. _(Needs admin authorization, Put request)_
+
+-**/api/category/delete/:id :** Deleting category by id. _(Needs admin authorization, Delete request)_
+
+**Auth(User auth) Endpoints :**
+
+-**/api/auth/register :** Register a new user. _(Post request)_
+
+-**/api/auth/login :** Login user. _(Post request)_
+
+**Admin Endpoints :**
+
+-**/api/admin/register :** Register a new admin. _(Post request)_
+
+-**/api/admin/login :** Login admin. _(Post request)_
 
 ## License
 
