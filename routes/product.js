@@ -29,6 +29,21 @@ router.post("/create", adminAuth, async (req, res, next) => {
   }
 });
 
+// Delete product
+router.delete("/delete/:id", adminAuth, productById, async (req, res, next) => {
+  const prod = req.product;
+
+  try {
+    let deletedProduct = await prod.remove();
+    res.json({
+      message: `${deletedProduct.name} deleted successfully`,
+    });
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
 // Getting list products
 router.get("/all", async (req, res, next) => {
   let order = req.query.order || "asc";
